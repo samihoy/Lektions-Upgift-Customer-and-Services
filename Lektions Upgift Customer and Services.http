@@ -1,0 +1,6 @@
+@Lektions_Upgift_Customer_and_Services_HostAddress = http://localhost:5010
+
+GET {{Lektions_Upgift_Customer_and_Services_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
