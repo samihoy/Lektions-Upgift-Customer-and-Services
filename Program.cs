@@ -56,21 +56,48 @@ namespace Lektions_Upgift_Customer_and_Services
                 return customer;
             });
             app.MapPut("/customer{id}", (CarRentalCompanyDBContext context, int id, Customer customer) =>
-            {
+            {               
                 var UpdatedCustomer = context.Customer.FirstOrDefault(p => p.ID == id);
-                if (UpdatedCustomer == null)
-                {
-                    return Results.NotFound("404 customer not found");
 
+                // koden under är ett uppdaterat och förenklat sätt för user att göra en PUT request och ändra flera atributer
+                // samtidigt istället för en och en, mycket bättre kåd än tidigare exempel. det tidigare exemplet finns kvar
+                // uttkomenterat under så du kan jämföra
+
+                if (UpdatedCustomer != null)
+                {
+                    if (customer.Name != UpdatedCustomer.Name && customer.Name != "string")
+                    {
+                        UpdatedCustomer.Name = customer.Name;                      
+                    }
+                    if(customer.Email !=UpdatedCustomer.Email && customer.Email != "string")
+                    {
+                        UpdatedCustomer.Email = customer.Email;
+                    }
+                    if (customer.PhoneNumber!=UpdatedCustomer.PhoneNumber && customer.PhoneNumber!= 0)
+                    {
+                        UpdatedCustomer.PhoneNumber = customer.PhoneNumber;
+                    }
+
+                    context.SaveChanges();
+                    return Results.Ok("Customer updated");
                 }
 
-                UpdatedCustomer.Name = customer.Name;
-                UpdatedCustomer.Email = customer.Email;
-                UpdatedCustomer.PhoneNumber = customer.PhoneNumber;
-                UpdatedCustomer.Services = customer.Services;
-                context.SaveChanges();
+                return Results.NotFound("Customer not found");
 
-                return Results.Ok("Customer updated");
+                //--------------------Gammla exemplet------------------------
+
+                //if (UpdatedCustomer == null)
+                //{
+                //    UpdatedCustomer.Name = customer.Name;
+                //    UpdatedCustomer.Email = customer.Email;
+                //    UpdatedCustomer.PhoneNumber = customer.PhoneNumber;
+                //    UpdatedCustomer.Services = customer.Services;
+                //    context.SaveChanges();
+                //    return Results.Ok("Customer updated");
+                //}
+                //return Results.NotFound("404 customer not found");
+
+
             });
             app.MapDelete("/customer{id}", (CarRentalCompanyDBContext context, int id) =>
             {

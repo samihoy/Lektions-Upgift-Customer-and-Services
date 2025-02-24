@@ -14,6 +14,7 @@ namespace Lektions_Upgift_Customer_and_Services.Models
         public string Email { get; set; }
 
         public int? PhoneNumber { get; set; }
+
         public virtual List<CustomerServices> Services { get; set; }
     }
 }
